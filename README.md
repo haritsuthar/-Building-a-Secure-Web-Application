@@ -1,10 +1,15 @@
-# 🔒 Building a Secure Web Application
+# 🐍 Building a Secure Web Application (Python Flask)
+
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-3.0%2B-green?logo=flask&logoColor=white)
+![Security](https://img.shields.io/badge/Security-JWT%20%7C%20OAuth%20%7C%20CSRF-red?logo=security&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-yellow?logo=opensource&logoColor=white)
 
 **Objective**: Create a simple web application and implement security measures like authentication, authorization, and secure data storage.
 
 **Tools**: Flask (Python), OAuth, JWT, SQL injection prevention, CSRF protection, and modern security practices.
 
-A comprehensive demonstration of cybersecurity principles in web development, showcasing industry-standard security implementations.
+A comprehensive **Python Flask-based** demonstration of cybersecurity principles in web development, showcasing industry-standard security implementations.
 
 ## 🚀 Features
 
@@ -56,20 +61,21 @@ A comprehensive demonstration of cybersecurity principles in web development, sh
 ## 🛠 Installation & Setup
 
 ### Prerequisites
-- Python 3.8 or higher
+- **Python 3.8 or higher** 🐍
 - pip (Python package installer)
+- Git (for cloning the repository)
 
-### Quick Start
+### Quick Start (Python)
 
-1. **Clone or download the project**
+1. **Clone the repository**
    ```bash
-   # If using git
-   git clone <repository-url>
-   cd secure-web-app
+   git clone https://github.com/haritsuthar/-Building-a-Secure-Web-Application.git
+   cd -Building-a-Secure-Web-Application
    ```
 
-2. **Create a virtual environment (recommended)**
+2. **Create a Python virtual environment (recommended)**
    ```bash
+   # Create virtual environment
    python -m venv venv
    
    # Activate virtual environment
@@ -79,19 +85,44 @@ A comprehensive demonstration of cybersecurity principles in web development, sh
    source venv/bin/activate
    ```
 
-3. **Install dependencies**
+3. **Install Python dependencies**
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Run the application**
+4. **Initialize the database**
+   ```bash
+   python -c "from app import app, db; app.app_context().push(); db.create_all()"
+   ```
+
+5. **Run the Python Flask application**
    ```bash
    python app.py
    ```
 
-5. **Access the application**
+6. **Access the application**
    - Web Interface: http://localhost:5000
    - API Base: http://localhost:5000/api
+   - Security Demo: http://localhost:5000/security-demo
+
+### Alternative Installation Methods
+
+#### Using pip (Python Package)
+```bash
+pip install -e .
+secure-web-app
+```
+
+#### Using Docker
+```bash
+docker build -t secure-web-app .
+docker run -p 5000:5000 secure-web-app
+```
+
+#### Using Docker Compose
+```bash
+docker-compose up -d
+```
 
 ### 🧪 Running Tests
 

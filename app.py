@@ -332,3 +332,7 @@ def unauthorized_error(error):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+def main():
+    """Main entry point for the application"""
+    app.run(debug=True, host='0.0.0.0', port=5000)

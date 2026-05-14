@@ -1,0 +1,22 @@
+# Git attributes for Building a Secure Web Application
+# This file helps GitHub properly detect the project language
+
+# Python files
+*.py linguist-language=Python
+
+# Template files should not be counted as the main language
+templates/*.html linguist-vendored
+static/*.css linguist-vendored
+static/*.js linguist-vendored
+
+# Documentation files
+*.md linguist-documentation
+
+# Configuration files
+*.txt linguist-documentation
+*.env linguist-documentation
+*.example linguist-documentation
+
+# Ensure Python is detected as the primary language
+*.py linguist-detectable=true
+*.html linguist-detectable=false

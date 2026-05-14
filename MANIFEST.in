@@ -1,0 +1,33 @@
+# MANIFEST.in for Building a Secure Web Application
+# This file specifies which files to include in the Python package
+
+# Include all Python files
+include *.py
+
+# Include documentation
+include README.md
+include LICENSE
+include DEPLOYMENT_GUIDE.md
+include PROJECT_SUMMARY.md
+
+# Include configuration files
+include requirements.txt
+include .env.example
+include pyproject.toml
+include setup.py
+
+# Include templates and static files
+recursive-include templates *.html
+recursive-include static *.css *.js *.png *.jpg *.ico
+
+# Include test files
+include test_app.py
+recursive-include tests *.py
+
+# Exclude unnecessary files
+exclude .gitignore
+exclude .gitattributes
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * .DS_Store
+recursive-exclude * Thumbs.db
