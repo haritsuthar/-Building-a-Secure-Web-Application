@@ -1,0 +1,337 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Secure Web App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="card-title mb-1">
+                            <i class="fas fa-tachometer-alt text-primary me-2"></i>
+                            Dashboard
+                        </h1>
+                        <p class="text-muted mb-0">Welcome to your secure dashboard, {{ session.username }}!</p>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge bg-success fs-6">
+                            <i class="fas fa-shield-alt me-1"></i>
+                            Authenticated
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-database text-info me-2"></i>
+                    Protected Data Access
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    This data is only visible to authenticated users with valid JWT tokens.
+                </div>
+                
+                <div id="protectedData" class="mt-3">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary mt-3" onclick="loadProtectedData()">
+                    <i class="fas fa-sync-alt me-2"></i>
+                    Refresh Data
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-line text-success me-2"></i>
+                    Activity Log
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker bg-success"></div>
+                        <div class="timeline-content">
+                            <h6 class="mb-1">Successful Login</h6>
+                            <small class="text-muted">Just now</small>
+                            <p class="mb-0">User {{ session.username }} logged in successfully</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker bg-info"></div>
+                        <div class="timeline-content">
+                            <h6 class="mb-1">Dashboard Access</h6>
+                            <small class="text-muted">Just now</small>
+                            <p class="mb-0">Accessed protected dashboard area</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-user text-primary me-2"></i>
+                    User Profile
+                </h5>
+            </div>
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    {% if session.oauth_provider %}
+                        <img src="{{ session.get('avatar_url', '') }}" alt="Avatar" class="rounded-circle" style="width: 80px; height: 80px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <i class="fas fa-user-circle text-muted d-none" style="font-size: 4rem;"></i>
+                    {% else %}
+                        <i class="fas fa-user-circle text-muted" style="font-size: 4rem;"></i>
+                    {% endif %}
+                </div>
+                <h5>{{ session.username }}</h5>
+                {% if session.oauth_provider %}
+                    <p class="text-muted">
+                        <i class="fab fa-{{ session.oauth_provider }} me-1"></i>
+                        {{ session.oauth_provider.title() }} User
+                    </p>
+                {% else %}
+                    <p class="text-muted">Local Account</p>
+                {% endif %}
+                <div class="row text-center">
+                    <div class="col-6">
+                        <div class="border-end">
+                            <h6 class="text-primary mb-0">Active</h6>
+                            <small class="text-muted">Status</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <h6 class="text-success mb-0">2h</h6>
+                        <small class="text-muted">Session</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-shield-alt text-success me-2"></i>
+                    Security Status
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span>JWT Token</span>
+                    <span class="badge bg-success">Valid</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span>Session</span>
+                    <span class="badge bg-success">Active</span>
+                </div>
+                {% if session.oauth_provider %}
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span>OAuth Provider</span>
+                    <span class="badge bg-info">{{ session.oauth_provider.title() }}</span>
+                </div>
+                {% endif %}
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span>CSRF Protection</span>
+                    <span class="badge bg-success">Enabled</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>Secure Connection</span>
+                    <span class="badge bg-success">HTTPS</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-cog text-secondary me-2"></i>
+                    Quick Actions
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-outline-primary btn-sm" onclick="testApiEndpoint()">
+                        <i class="fas fa-code me-2"></i>Test API
+                    </button>
+                    <button class="btn btn-outline-info btn-sm" onclick="viewTokenInfo()">
+                        <i class="fas fa-key me-2"></i>Token Info
+                    </button>
+                    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger btn-sm">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Token Info Modal -->
+<div class="modal fade" id="tokenModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">JWT Token Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="tokenInfo"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<style>
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -35px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: -30px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #dee2e6;
+}
+</style>
+
+<script>
+// Load protected data from API
+async function loadProtectedData() {
+    const protectedDataDiv = document.getElementById('protectedData');
+    protectedDataDiv.innerHTML = `
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    `;
+    
+    try {
+        // Get token from session (in a real app, this would be stored securely)
+        const response = await fetch('/api/dashboard', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer {{ session.user_token }}',
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            protectedDataDiv.innerHTML = `
+                <div class="alert alert-success">
+                    <h6><i class="fas fa-check-circle me-2"></i>API Response:</h6>
+                    <p class="mb-1"><strong>Message:</strong> ${data.message}</p>
+                    <p class="mb-0"><strong>Data:</strong> ${data.sensitive_data}</p>
+                </div>
+            `;
+        } else {
+            throw new Error('Failed to fetch data');
+        }
+    } catch (error) {
+        protectedDataDiv.innerHTML = `
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Error loading protected data: ${error.message}
+            </div>
+        `;
+    }
+}
+
+// Test API endpoint
+async function testApiEndpoint() {
+    try {
+        const response = await fetch('/api', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        const data = await response.json();
+        alert('API Test Successful!\n\nStatus: ' + data.status + '\nMessage: ' + data.message);
+    } catch (error) {
+        alert('API Test Failed: ' + error.message);
+    }
+}
+
+// View token information
+function viewTokenInfo() {
+    const token = '{{ session.user_token }}';
+    if (token) {
+        try {
+            // Decode JWT payload (note: this is just for display, not for security validation)
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            const expDate = new Date(payload.exp * 1000);
+            
+            document.getElementById('tokenInfo').innerHTML = `
+                <div class="row">
+                    <div class="col-sm-4"><strong>Username:</strong></div>
+                    <div class="col-sm-8">${payload.username}</div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-4"><strong>Expires:</strong></div>
+                    <div class="col-sm-8">${expDate.toLocaleString()}</div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-4"><strong>Algorithm:</strong></div>
+                    <div class="col-sm-8">HS256</div>
+                </div>
+                <div class="alert alert-warning mt-3">
+                    <small><i class="fas fa-exclamation-triangle me-1"></i>
+                    This token will expire in ${Math.round((expDate - new Date()) / (1000 * 60))} minutes.</small>
+                </div>
+            `;
+            
+            new bootstrap.Modal(document.getElementById('tokenModal')).show();
+        } catch (error) {
+            alert('Error decoding token: ' + error.message);
+        }
+    }
+}
+
+// Load protected data on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadProtectedData();
+});
+</script>
+{% endblock %}

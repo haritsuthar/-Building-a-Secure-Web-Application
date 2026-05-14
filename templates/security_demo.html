@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+
+{% block title %}Security Demonstration - Building a Secure Web Application{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h1 class="card-title">
+                    <i class="fas fa-shield-alt text-primary me-2"></i>
+                    Security Implementation Demonstration
+                </h1>
+                <p class="lead">
+                    This page demonstrates all the security measures implemented in this web application,
+                    showcasing industry-standard cybersecurity practices.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-user-shield me-2"></i>
+                    Authentication & Authorization
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="security-feature mb-3">
+                    <h6><i class="fas fa-key text-success me-2"></i>JWT (JSON Web Tokens)</h6>
+                    <p class="small text-muted">Stateless authentication with HS256 algorithm and 2-hour expiration</p>
+                    <div class="bg-light p-2 rounded">
+                        <code>jwt.encode(payload, secret_key, algorithm="HS256")</code>
+                    </div>
+                </div>
+                
+                <div class="security-feature mb-3">
+                    <h6><i class="fab fa-github text-success me-2"></i>OAuth Integration</h6>
+                    <p class="small text-muted">Secure third-party authentication with GitHub (extensible to Google, etc.)</p>
+                    <div class="bg-light p-2 rounded">
+                        <code>oauth.register('github', client_id, client_secret)</code>
+                    </div>
+                </div>
+                
+                <div class="security-feature">
+                    <h6><i class="fas fa-lock text-success me-2"></i>Session Management</h6>
+                    <p class="small text-muted">Secure server-side sessions with automatic cleanup</p>
+                    <div class="bg-light p-2 rounded">
+                        <code>session['user_token'] = jwt_token</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-database me-2"></i>
+                    Secure Data Storage
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="security-feature mb-3">
+                    <h6><i class="fas fa-hashtag text-success me-2"></i>Password Hashing</h6>
+                    <p class="small text-muted">PBKDF2-SHA256 with automatic salting - never store plaintext passwords</p>
+                    <div class="bg-light p-2 rounded">
+                        <code>generate_password_hash(password, method='pbkdf2:sha256')</code>
+                    </div>
+                </div>
+                
+                <div class="security-feature mb-3">
+                    <h6><i class="fas fa-shield-alt text-success me-2"></i>SQL Injection Prevention</h6>
+                    <p class="small text-muted">SQLAlchemy ORM with parameterized queries</p>
+                    <div class="bg-light p-2 rounded">
+                        <code>User.query.filter_by(username=username).first()</code>
+                    </div>
+                </div>
+                
+                <div class="security-feature">
+                    <h6><i class="fas fa-user-lock text-success me-2"></i>Account Security</h6>
+                    <p class="small text-muted">Account locking after failed attempts, activity tracking</p>
+                    <div class="bg-light p-2 rounded">
+                        <code>user.lock_account(minutes=30)</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">
+                    <i class="fas fa-bug me-2"></i>
+                    Attack Prevention
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="security-feature mb-3">
+                    <h6><i class="fas fa-times-circle text-success me-2"></i>CSRF Protection</h6>
+                    <p class="small text-muted">Cross-Site Request Forgery protection on all forms</p>
+                    <div class="bg-light p-2 rounded">
+                        <code>&lt;input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/&gt;</code>
+                    </div>
+                </div>
+                
+                <div class="security-feature mb-3">
+                    <h6><i class="fas fa-code text-success me-2"></i>XSS Prevention</h6>
+                    <p class="small text-muted">Input sanitization and output encoding</p>
+                    <div class="bg-light p-2 rounded">
+                        <code>SecurityUtils.escapeHtml(user_input)</code>
+                    </div>
+                </div>
+                
+                <div class="security-feature">
+                    <h6><i class="fas fa-tachometer-alt text-success me-2"></i>Rate Limiting</h6>
+                    <p class="small text-muted">Brute force protection with request throttling</p>
+                    <div class="bg-light p-2 rounded">
+                        <code>SecurityUtils.rateLimit(key, limit=5, window=60000)</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-check-circle me-2"></i>
+                    Input Validation
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="security-feature mb-3">
+                    <h6><i class="fas fa-keyboard text-success me-2"></i>Client-Side Validation</h6>
+                    <p class="small text-muted">Real-time form validation with JavaScript</p>
+                    <div class="bg-light p-2 rounded">
+                        <code>SecurityUtils.validateUsername(username)</code>
+                    </div>
+                </div>
+                
+                <div class="security-feature mb-3">
+                    <h6><i class="fas fa-server text-success me-2"></i>Server-Side Validation</h6>
+                    <p class="small text-muted">Backend validation for all user inputs</p>
+                    <div class="bg-light p-2 rounded">
+                        <code>if len(password) < 8: flash('Password too short')</code>
+                    </div>
+                </div>
+                
+                <div class="security-feature">
+                    <h6><i class="fas fa-eye text-success me-2"></i>Password Strength</h6>
+                    <p class="small text-muted">Real-time password strength indicator</p>
+                    <div class="bg-light p-2 rounded">
+                        <code>SecurityUtils.checkPasswordStrength(password)</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-tools me-2"></i>
+                    Security Testing & Monitoring
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6><i class="fas fa-vial text-primary me-2"></i>Automated Testing</h6>
+                        <ul class="list-unstyled small">
+                            <li>✅ 20+ Unit Tests</li>
+                            <li>✅ Security Feature Tests</li>
+                            <li>✅ Authentication Flow Tests</li>
+                            <li>✅ API Endpoint Tests</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h6><i class="fas fa-chart-line text-success me-2"></i>Security Monitoring</h6>
+                        <ul class="list-unstyled small">
+                            <li>✅ Failed Login Tracking</li>
+                            <li>✅ Session Monitoring</li>
+                            <li>✅ Activity Logging</li>
+                            <li>✅ Error Handling</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h6><i class="fas fa-cog text-warning me-2"></i>Configuration</h6>
+                        <ul class="list-unstyled small">
+                            <li>✅ Environment Variables</li>
+                            <li>✅ Secure Defaults</li>
+                            <li>✅ Production Ready</li>
+                            <li>✅ Docker Support</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-3 bg-light rounded">
+                    <h6><i class="fas fa-terminal text-dark me-2"></i>Test the Security Features</h6>
+                    <p class="mb-2">Run the comprehensive test suite to verify all security implementations:</p>
+                    <code class="bg-dark text-light p-2 rounded d-block">python test_app.py</code>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="alert alert-success">
+            <h5><i class="fas fa-graduation-cap me-2"></i>Learning Objectives Achieved</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="mb-0">
+                        <li><strong>Authentication:</strong> JWT + OAuth implementation</li>
+                        <li><strong>Authorization:</strong> Role-based access control</li>
+                        <li><strong>Secure Storage:</strong> Password hashing + encryption</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="mb-0">
+                        <li><strong>Attack Prevention:</strong> CSRF, XSS, SQL injection</li>
+                        <li><strong>Input Validation:</strong> Client + server-side</li>
+                        <li><strong>Security Monitoring:</strong> Logging + testing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<style>
+.security-feature {
+    border-left: 4px solid #28a745;
+    padding-left: 15px;
+}
+
+.security-feature h6 {
+    color: #495057;
+    font-weight: 600;
+}
+
+.security-feature code {
+    font-size: 0.85em;
+    word-break: break-all;
+}
+
+.card-header {
+    font-weight: 600;
+}
+</style>
+{% endblock %}
